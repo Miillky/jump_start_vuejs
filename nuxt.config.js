@@ -3,6 +3,7 @@ import pkg from './package'
 export default {
   mode: 'universal',
 
+  serverMiddleware: ['~/api/auth'],
   /*
   ** Headers of the page
   */
@@ -14,7 +15,13 @@ export default {
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href:
+          'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css'
+      }
     ]
   },
 
@@ -41,6 +48,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
   /*
   ** Axios module configuration
@@ -48,7 +56,15 @@ export default {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
-
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { propertyName: 'token.accessToken' }
+        }
+      }
+    }
+  },
   /*
   ** Build configuration
   */
@@ -59,4 +75,5 @@ export default {
     extend(config, ctx) {
     }
   }
+
 }
